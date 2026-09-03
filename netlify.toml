@@ -1,0 +1,67 @@
+# Netlify configuration for the 1 Solutions static site.
+# No build step — the repo root is published as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+# Pretty URLs: allow /services instead of /services.html
+[[redirects]]
+  from = "/services"
+  to = "/services.html"
+  status = 200
+
+[[redirects]]
+  from = "/about-contact"
+  to = "/about-contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about-contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/about-contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+# Keep internal reference material out of the public site
+[[redirects]]
+  from = "/resources/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/sample.html"
+  to = "/404.html"
+  status = 404
+
+# Security + caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

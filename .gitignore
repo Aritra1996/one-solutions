@@ -1,0 +1,11 @@
+# tooling — not part of the website
+.agents/
+.claude/
+skills-lock.json
+
+# os / editor
+.DS_Store
+Thumbs.db
+node_modules/
+*.log
+.netlify/
