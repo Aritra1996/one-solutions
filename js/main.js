@@ -104,15 +104,32 @@
     var idx = 0;
     var prev = document.querySelector('[data-tst="prev"]');
     var next = document.querySelector('[data-tst="next"]');
+    var dotsWrap = document.getElementById("tst-dots");
+    var dots = [];
     var timer;
 
-    function render() { track.style.transform = "translateX(" + (-idx * 100) + "%)"; }
+    if (dotsWrap) {
+      for (var i = 0; i < items; i++) {
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.setAttribute("aria-label", "Go to testimonial " + (i + 1));
+        (function (n) { dot.addEventListener("click", function () { go(n); }); })(i);
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      }
+    }
+
+    function render() {
+      track.style.transform = "translateX(" + (-idx * 100) + "%)";
+      dots.forEach(function (d, i) { d.classList.toggle("is-active", i === idx); });
+    }
     function go(n) { idx = (n + items) % items; render(); }
     function start() { timer = setInterval(function () { go(idx + 1); }, 6000); }
     function stop() { clearInterval(timer); }
 
     if (next) next.addEventListener("click", function () { go(idx + 1); });
     if (prev) prev.addEventListener("click", function () { go(idx - 1); });
+    render();
 
     var slider = track.closest(".tst-slider");
     if (slider) {
